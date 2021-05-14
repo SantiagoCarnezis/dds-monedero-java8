@@ -48,21 +48,12 @@ public class Cuenta {
       throw new MaximoExtraccionDiarioException("No puede extraer mas de $ " + 1000
           + " diarios, límite: " + limite);
     }
-    new Movimiento(LocalDate.now(), cuanto, false).agregateA(this);
+    agregarMovimiento(LocalDate.now(), cuanto, false);
   }
 
   boolean saldoInsuficiente(double cuanto){
     return getSaldo() - cuanto < 0;
   }
-  /*
-  * El if de la linea 65 tambien se puede delegar en un metodo su condicion:
-  * saldoInsuficiente(cuanto)
-   */
-
-  /*
-   * El if de la linea 65 tambien se puede delegar en un metodo su condicion:
-   * saldoInsuficiente(cuanto)
-   */
 
   /*
    * Se deberia utilizar el metodo agregarMovimiento en vez de agregateA (mensaje
