@@ -22,6 +22,12 @@ public class Cuenta {
     saldo = montoInicial;
   }
 
+  /*
+  * Hay dos constructores para la clase Cuenta (linea 17 y linea 21)
+  * Lo mejor seria dejar el segundo constructor, ya que se le puede asignar un valor
+  * inicial al saldo, y eliminar el segundo.
+   */
+
   public void setMovimientos(List<Movimiento> movimientos) {
     this.movimientos = movimientos;
   }
@@ -37,6 +43,20 @@ public class Cuenta {
 
     new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);
   }
+
+  /*
+  * La condicion del segundo if se podria delegar en un metodo, ya que no se entiende
+  * que es lo que se quiere preguntar. Podria ser:
+  *  cantidadDeDepositos() >= 3
+  * Me parece mejor eso antes que hacer un metodo llamado seHicieronMasDeTresDepositos()
+   */
+
+  /*
+  * Otro error es el mensaje en la excepcion que se tira en la linea 41, el mensaje
+  * deberia ser "Ya se excedio los 3 depositos". No es necesario convertir el 3 en
+  * string ni tampoco mencionar si son diarios ya que eso no se pregunta en el
+  * if anterior
+   */
 
   public void sacar(double cuanto) {
     if (cuanto <= 0) {
@@ -54,6 +74,27 @@ public class Cuenta {
     new Movimiento(LocalDate.now(), cuanto, false).agregateA(this);
   }
 
+  /*
+  * El if de la linea 65 tambien se puede delegar en un metodo su condicion:
+  * saldoInsuficiente(cuanto)
+   */
+
+  /*
+   * El if de la linea 65 tambien se puede delegar en un metodo su condicion:
+   * saldoInsuficiente(cuanto)
+   */
+
+  /*
+   * Se deberia utilizar el metodo agregarMovimiento en vez de agregateA (mensaje
+   * que entien la clase Movimiento)
+   */
+
+  /*
+   * Se puede notar que en poner y sacar hay repeticion de codigo ambos
+   * comienan validando si el monto ingresado es positvo y terminan
+   * agregando el movimiento. Se podria abstraer esa parte en una sola funcion
+   */
+
   public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
     Movimiento movimiento = new Movimiento(fecha, cuanto, esDeposito);
     movimientos.add(movimiento);
@@ -65,6 +106,24 @@ public class Cuenta {
         .mapToDouble(Movimiento::getMonto)
         .sum();
   }
+
+  /*
+   * Se le deberia pasar a movimiento el mensaje fueExtraido(fecha), de
+   * esa forma es mas entendible que es lo que se quiere filtar
+   */
+
+  public long cantidadDeDepositos(){
+    return getMovimientos().stream().filter(movimiento -> movimiento.isDeposito()).count();
+  }
+
+  public long cantidadDeExtracciones(){
+    return getMovimientos().stream().filter(movimiento -> !movimiento.isDeposito()).count();
+  }
+
+  /*
+   * Los metodos poner y sacar se deberian renombrar como depositar
+   * y extraer respectivamente
+   */
 
   public List<Movimiento> getMovimientos() {
     return movimientos;

@@ -55,4 +55,11 @@ public class Movimiento {
       return cuenta.getSaldo() - getMonto();
     }
   }
+
+  /*
+   * Los metodos agregateA y calcularValor no deberia existir, ya
+   * qur tiene mucho mas sentido que la cuenta agregue un movimiento
+   * y modifique su saldo. De esta forma no se rompe con el
+   * encapsulamiento
+   */
 }
