@@ -39,7 +39,7 @@ public class Cuenta {
     if (cuanto <= 0) {
       throw new MontoNegativoException(cuanto + ": el monto a ingresar debe ser un valor positivo");
     }
-    if (getSaldo() - cuanto < 0) {
+    if (saldoInsuficiente(cuanto)) {
       throw new SaldoMenorException("No puede sacar mas de " + getSaldo() + " $");
     }
     double montoExtraidoHoy = getMontoExtraidoA(LocalDate.now());
@@ -51,6 +51,9 @@ public class Cuenta {
     new Movimiento(LocalDate.now(), cuanto, false).agregateA(this);
   }
 
+  boolean saldoInsuficiente(double cuanto){
+    return getSaldo() - cuanto < 0;
+  }
   /*
   * El if de la linea 65 tambien se puede delegar en un metodo su condicion:
   * saldoInsuficiente(cuanto)
