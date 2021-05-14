@@ -28,25 +28,12 @@ public class Cuenta {
     }
 
     if (cantidadDeDepositos() >= 3) {
-      throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
+      throw new MaximaCantidadDepositosException("Ya excedio los 3 depositos diarios");
     }
 
     new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);
   }
 
-  /*
-  * La condicion del segundo if se podria delegar en un metodo, ya que no se entiende
-  * que es lo que se quiere preguntar. Podria ser:
-  *  cantidadDeDepositos() >= 3
-  * Me parece mejor eso antes que hacer un metodo llamado seHicieronMasDeTresDepositos()
-   */
-
-  /*
-  * Otro error es el mensaje en la excepcion que se tira en la linea 41, el mensaje
-  * deberia ser "Ya se excedio los 3 depositos". No es necesario convertir el 3 en
-  * string ni tampoco mencionar si son diarios ya que eso no se pregunta en el
-  * if anterior
-   */
 
   public void extraer(double cuanto) {
     if (cuanto <= 0) {
@@ -109,11 +96,6 @@ public class Cuenta {
   public long cantidadDeExtracciones(){
     return getMovimientos().stream().filter(movimiento -> !movimiento.isDeposito()).count();
   }
-
-  /*
-   * Los metodos poner y sacar se deberian renombrar como depositar
-   * y extraer respectivamente
-   */
 
   public List<Movimiento> getMovimientos() {
     return movimientos;
