@@ -7,12 +7,12 @@ public class Movimiento {
   //En ningún lenguaje de programación usen jamás doubles para modelar dinero en el mundo real
   //siempre usen numeros de precision arbitraria, como BigDecimal en Java y similares
   private double monto;
-  private boolean esDeposito;
+  private TipoMovimiento tipo;
 
-  public Movimiento(LocalDate fecha, double monto, boolean esDeposito) {
+  public Movimiento(LocalDate fecha, double monto, TipoMovimiento esDeposito) {
     this.fecha = fecha;
     this.monto = monto;
-    this.esDeposito = esDeposito;
+    this.tipo = esDeposito;
   }
 
   public double getMonto() {
@@ -36,30 +36,11 @@ public class Movimiento {
   }
 
   public boolean isDeposito() {
-    return esDeposito;
+    return tipo.isDeposito();
   }
 
   public boolean isExtraccion() {
-    return !esDeposito;
+    return !tipo.isDeposito();
   }
 
-  public void agregateA(Cuenta cuenta) {
-    cuenta.setSaldo(calcularValor(cuenta));
-    cuenta.agregarMovimiento(fecha, monto, esDeposito);
-  }
-
-  public double calcularValor(Cuenta cuenta) {
-    if (esDeposito) {
-      return cuenta.getSaldo() + getMonto();
-    } else {
-      return cuenta.getSaldo() - getMonto();
-    }
-  }
-
-  /*
-   * Los metodos agregateA y calcularValor no deberia existir, ya
-   * qur tiene mucho mas sentido que la cuenta agregue un movimiento
-   * y modifique su saldo. De esta forma no se rompe con el
-   * encapsulamiento
-   */
 }

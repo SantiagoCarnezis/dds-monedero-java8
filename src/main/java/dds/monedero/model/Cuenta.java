@@ -31,7 +31,7 @@ public class Cuenta {
       throw new MaximaCantidadDepositosException("Ya excedio los 3 depositos diarios");
     }
 
-    new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);
+    agregarMovimiento(LocalDate.now(), cuanto, new Deposito());
   }
 
 
@@ -48,17 +48,13 @@ public class Cuenta {
       throw new MaximoExtraccionDiarioException("No puede extraer mas de $ " + 1000
           + " diarios, límite: " + limite);
     }
-    agregarMovimiento(LocalDate.now(), cuanto, false);
+    agregarMovimiento(LocalDate.now(), cuanto, new Extraccion());
   }
 
   boolean saldoInsuficiente(double cuanto){
     return getSaldo() - cuanto < 0;
   }
 
-  /*
-   * Se deberia utilizar el metodo agregarMovimiento en vez de agregateA (mensaje
-   * que entien la clase Movimiento)
-   */
 
   /*
    * Se puede notar que en poner y sacar hay repeticion de codigo ambos
@@ -66,9 +62,10 @@ public class Cuenta {
    * agregando el movimiento. Se podria abstraer esa parte en una sola funcion
    */
 
-  public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
-    Movimiento movimiento = new Movimiento(fecha, cuanto, esDeposito);
+  public void agregarMovimiento(LocalDate fecha, double cuanto, TipoMovimiento tipo) {
+    Movimiento movimiento = new Movimiento(fecha, cuanto, tipo);
     movimientos.add(movimiento);
+    saldo = tipo.calcularSaldo(this.saldo, cuanto);
   }
 
   public double getMontoExtraidoA(LocalDate fecha) {
