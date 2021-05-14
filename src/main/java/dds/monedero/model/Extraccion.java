@@ -1,11 +1,13 @@
 package dds.monedero.model;
 
+import java.math.BigDecimal;
+
 public class Extraccion implements TipoMovimiento{
   public boolean isDeposito() {
     return false;
   }
 
-  public double calcularSaldo(double saldo, double monto){
-    return saldo - monto;
+  public BigDecimal calcularSaldo(BigDecimal saldo, BigDecimal monto){
+    return saldo.subtract(monto);
   }
 }

@@ -1,12 +1,14 @@
 package dds.monedero.model;
 
+import java.math.BigDecimal;
+
 public class Deposito implements TipoMovimiento {
 
   public boolean isDeposito() {
     return true;
   }
 
-  public double calcularSaldo(double saldo, double monto){
-    return saldo + monto;
+  public BigDecimal calcularSaldo(BigDecimal saldo, BigDecimal monto){
+    return saldo.add(monto);
   }
 }
