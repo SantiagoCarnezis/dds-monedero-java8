@@ -55,13 +55,6 @@ public class Cuenta {
     return getSaldo() - cuanto < 0;
   }
 
-
-  /*
-   * Se puede notar que en poner y sacar hay repeticion de codigo ambos
-   * comienan validando si el monto ingresado es positvo y terminan
-   * agregando el movimiento. Se podria abstraer esa parte en una sola funcion
-   */
-
   public void agregarMovimiento(LocalDate fecha, double cuanto, TipoMovimiento tipo) {
     Movimiento movimiento = new Movimiento(fecha, cuanto, tipo);
     movimientos.add(movimiento);
@@ -70,15 +63,11 @@ public class Cuenta {
 
   public double getMontoExtraidoA(LocalDate fecha) {
     return getMovimientos().stream()
-        .filter(movimiento -> !movimiento.isDeposito() && movimiento.getFecha().equals(fecha))
+        .filter(movimiento -> movimiento.fueExtraido(fecha))
         .mapToDouble(Movimiento::getMonto)
         .sum();
   }
 
-  /*
-   * Se le deberia pasar a movimiento el mensaje fueExtraido(fecha), de
-   * esa forma es mas entendible que es lo que se quiere filtar
-   */
 
   public long cantidadDeDepositos(){
     return getMovimientos().stream().filter(movimiento -> movimiento.isDeposito()).count();
